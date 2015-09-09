@@ -11,9 +11,9 @@ layer {
     scale: 0.00390625
   }
   data_param {
-    source: "examples/mnist/mnist_train_lmdb"
+    source: "examples/mnist/mnist_train_leveldb"
     batch_size: 64
-    backend: LMDB
+    backend: LEVELDB
   }
 }
 layer {
@@ -28,9 +28,9 @@ layer {
     scale: 0.00390625
   }
   data_param {
-    source: "examples/mnist/mnist_test_lmdb"
+    source: "examples/mnist/mnist_test_leveldb"
     batch_size: 100
-    backend: LMDB
+    backend: LEVELDB
   }
 }
 layer {
@@ -54,6 +54,7 @@ layer {
     bias_filler {
       type: "constant"
     }
+    engine : CAFFE
   }
 }
 layer {
@@ -65,6 +66,7 @@ layer {
     pool: MAX
     kernel_size: 2
     stride: 2
+    engine : CAFFE
   }
 }
 layer {
@@ -88,6 +90,7 @@ layer {
     bias_filler {
       type: "constant"
     }
+    engine : CAFFE
   }
 }
 layer {
@@ -99,6 +102,7 @@ layer {
     pool: MAX
     kernel_size: 2
     stride: 2
+    engine : CAFFE
   }
 }
 layer {
@@ -127,6 +131,9 @@ layer {
   type: "ReLU"
   bottom: "ip1"
   top: "ip1"
+  relu_param {
+    engine : CAFFE
+  }
 }
 layer {
   name: "ip2"

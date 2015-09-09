@@ -562,10 +562,16 @@ void Net<Dtype>::BackwardFromTo(int start, int end) {
               master_diffs_[master_id]->cpu_diff(),
               master_diffs_[master_id]->mutable_cpu_diff());
 #else
+			caffe_add(master_diffs_[master_id]->count(),
+				layers_[i]->blobs()[j]->cpu_diff(),
+				master_diffs_[master_id]->cpu_diff(),
+				master_diffs_[master_id]->mutable_cpu_diff());
+			/*
           caffe_gpu_add(master_diffs_[master_id]->count(),
               layers_[i]->blobs()[j]->gpu_diff(),
               master_diffs_[master_id]->gpu_diff(),
               master_diffs_[master_id]->mutable_gpu_diff());
+			  */
 #endif
         }
         net_param_id--;
