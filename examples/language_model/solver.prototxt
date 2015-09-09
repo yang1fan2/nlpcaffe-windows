@@ -1,0 +1,15 @@
+test_iter: 200
+test_interval: 1000
+base_lr: 29.13
+display: 100
+max_iter: 20000
+lr_policy: "step"
+gamma: 0.792
+weight_decay: 1.6e-06
+stepsize: 2500
+snapshot: 1000
+snapshot_prefix: "examples/language_model/lm"
+solver_mode: GPU
+random_seed: 22
+net: "examples/language_model/train_val.prototxt"
+clip_gradients: 0.24

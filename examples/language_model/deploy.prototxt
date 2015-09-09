@@ -1,0 +1,4015 @@
+name: "ManningNet"
+
+input: "data"
+input_dim: 128
+input_dim: 60
+input_dim: 1
+input_dim: 1
+
+layer {
+  name: "data_slice_layer"
+  type: "Slice"
+  bottom: "data"
+  top: "input_words"
+  top: "target_words"
+  slice_param {
+    slice_dim: 1
+    slice_point: 30
+  }
+}
+layer {
+  name: "label_slice_layer"
+  type: "Slice"
+  bottom: "target_words"
+  top: "label0"
+  top: "label1"
+  top: "label2"
+  top: "label3"
+  top: "label4"
+  top: "label5"
+  top: "label6"
+  top: "label7"
+  top: "label8"
+  top: "label9"
+  top: "label10"
+  top: "label11"
+  top: "label12"
+  top: "label13"
+  top: "label14"
+  top: "label15"
+  top: "label16"
+  top: "label17"
+  top: "label18"
+  top: "label19"
+  top: "label20"
+  top: "label21"
+  top: "label22"
+  top: "label23"
+  top: "label24"
+  top: "label25"
+  top: "label26"
+  top: "label27"
+  top: "label28"
+  top: "label29"
+  slice_param {
+    slice_dim: 1
+    slice_point: 1
+    slice_point: 2
+    slice_point: 3
+    slice_point: 4
+    slice_point: 5
+    slice_point: 6
+    slice_point: 7
+    slice_point: 8
+    slice_point: 9
+    slice_point: 10
+    slice_point: 11
+    slice_point: 12
+    slice_point: 13
+    slice_point: 14
+    slice_point: 15
+    slice_point: 16
+    slice_point: 17
+    slice_point: 18
+    slice_point: 19
+    slice_point: 20
+    slice_point: 21
+    slice_point: 22
+    slice_point: 23
+    slice_point: 24
+    slice_point: 25
+    slice_point: 26
+    slice_point: 27
+    slice_point: 28
+    slice_point: 29
+  }
+}
+layer {
+  name: "wordvec_layer"
+  type: "Wordvec"
+  bottom: "input_words"
+  top: "wordvec_layer"
+  wordvec_param {
+    dimension: 250
+    vocab_size: 10003
+    weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "wordvec_slice_layer"
+  type: "Slice"
+  bottom: "wordvec_layer"
+  top: "target_wordvec0"
+  top: "target_wordvec1"
+  top: "target_wordvec2"
+  top: "target_wordvec3"
+  top: "target_wordvec4"
+  top: "target_wordvec5"
+  top: "target_wordvec6"
+  top: "target_wordvec7"
+  top: "target_wordvec8"
+  top: "target_wordvec9"
+  top: "target_wordvec10"
+  top: "target_wordvec11"
+  top: "target_wordvec12"
+  top: "target_wordvec13"
+  top: "target_wordvec14"
+  top: "target_wordvec15"
+  top: "target_wordvec16"
+  top: "target_wordvec17"
+  top: "target_wordvec18"
+  top: "target_wordvec19"
+  top: "target_wordvec20"
+  top: "target_wordvec21"
+  top: "target_wordvec22"
+  top: "target_wordvec23"
+  top: "target_wordvec24"
+  top: "target_wordvec25"
+  top: "target_wordvec26"
+  top: "target_wordvec27"
+  top: "target_wordvec28"
+  top: "target_wordvec29"
+  slice_param {
+    slice_dim: 2
+    slice_point: 1
+    slice_point: 2
+    slice_point: 3
+    slice_point: 4
+    slice_point: 5
+    slice_point: 6
+    slice_point: 7
+    slice_point: 8
+    slice_point: 9
+    slice_point: 10
+    slice_point: 11
+    slice_point: 12
+    slice_point: 13
+    slice_point: 14
+    slice_point: 15
+    slice_point: 16
+    slice_point: 17
+    slice_point: 18
+    slice_point: 19
+    slice_point: 20
+    slice_point: 21
+    slice_point: 22
+    slice_point: 23
+    slice_point: 24
+    slice_point: 25
+    slice_point: 26
+    slice_point: 27
+    slice_point: 28
+    slice_point: 29
+    fast_wordvec_slice: true
+  }
+}
+layer {
+  name: "dummy_layer"
+  type: "DummyData"
+  top: "dummy_layer"
+  dummy_data_param {
+    num: 128
+    channels: 250
+    height: 1
+    width: 1
+  }
+}
+layer {
+  name: "dummy_mem_cell"
+  type: "DummyData"
+  top: "dummy_mem_cell"
+  dummy_data_param {
+    num: 128
+    channels: 250
+    height: 1
+    width: 1
+  }
+}
+layer {
+  name: "concat0_layer0"
+  type: "Concat"
+  bottom: "target_wordvec0"
+  bottom: "dummy_layer"
+  top: "concat0_layer0"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer0"
+  type: "Lstm"
+  bottom: "concat0_layer0"
+  bottom: "dummy_mem_cell"
+  top: "lstm0_hidden0"
+  top: "lstm0_mem_cell0"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_0"
+  type: "Dropout"
+  bottom: "lstm0_hidden0"
+  top: "dropout0_0"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer0"
+  type: "Concat"
+  bottom: "dropout0_0"
+  bottom: "dummy_layer"
+  top: "concat1_layer0"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer0"
+  type: "Lstm"
+  bottom: "concat1_layer0"
+  bottom: "dummy_mem_cell"
+  top: "lstm1_hidden0"
+  top: "lstm1_mem_cell0"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_0"
+  type: "Dropout"
+  bottom: "lstm1_hidden0"
+  top: "dropout1_0"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer1"
+  type: "Concat"
+  bottom: "target_wordvec1"
+  bottom: "lstm0_hidden0"
+  top: "concat0_layer1"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer1"
+  type: "Lstm"
+  bottom: "concat0_layer1"
+  bottom: "lstm0_mem_cell0"
+  top: "lstm0_hidden1"
+  top: "lstm0_mem_cell1"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_1"
+  type: "Dropout"
+  bottom: "lstm0_hidden1"
+  top: "dropout0_1"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer1"
+  type: "Concat"
+  bottom: "dropout0_1"
+  bottom: "lstm1_hidden0"
+  top: "concat1_layer1"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer1"
+  type: "Lstm"
+  bottom: "concat1_layer1"
+  bottom: "lstm1_mem_cell0"
+  top: "lstm1_hidden1"
+  top: "lstm1_mem_cell1"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_1"
+  type: "Dropout"
+  bottom: "lstm1_hidden1"
+  top: "dropout1_1"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer2"
+  type: "Concat"
+  bottom: "target_wordvec2"
+  bottom: "lstm0_hidden1"
+  top: "concat0_layer2"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer2"
+  type: "Lstm"
+  bottom: "concat0_layer2"
+  bottom: "lstm0_mem_cell1"
+  top: "lstm0_hidden2"
+  top: "lstm0_mem_cell2"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_2"
+  type: "Dropout"
+  bottom: "lstm0_hidden2"
+  top: "dropout0_2"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer2"
+  type: "Concat"
+  bottom: "dropout0_2"
+  bottom: "lstm1_hidden1"
+  top: "concat1_layer2"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer2"
+  type: "Lstm"
+  bottom: "concat1_layer2"
+  bottom: "lstm1_mem_cell1"
+  top: "lstm1_hidden2"
+  top: "lstm1_mem_cell2"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_2"
+  type: "Dropout"
+  bottom: "lstm1_hidden2"
+  top: "dropout1_2"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer3"
+  type: "Concat"
+  bottom: "target_wordvec3"
+  bottom: "lstm0_hidden2"
+  top: "concat0_layer3"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer3"
+  type: "Lstm"
+  bottom: "concat0_layer3"
+  bottom: "lstm0_mem_cell2"
+  top: "lstm0_hidden3"
+  top: "lstm0_mem_cell3"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_3"
+  type: "Dropout"
+  bottom: "lstm0_hidden3"
+  top: "dropout0_3"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer3"
+  type: "Concat"
+  bottom: "dropout0_3"
+  bottom: "lstm1_hidden2"
+  top: "concat1_layer3"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer3"
+  type: "Lstm"
+  bottom: "concat1_layer3"
+  bottom: "lstm1_mem_cell2"
+  top: "lstm1_hidden3"
+  top: "lstm1_mem_cell3"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_3"
+  type: "Dropout"
+  bottom: "lstm1_hidden3"
+  top: "dropout1_3"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer4"
+  type: "Concat"
+  bottom: "target_wordvec4"
+  bottom: "lstm0_hidden3"
+  top: "concat0_layer4"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer4"
+  type: "Lstm"
+  bottom: "concat0_layer4"
+  bottom: "lstm0_mem_cell3"
+  top: "lstm0_hidden4"
+  top: "lstm0_mem_cell4"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_4"
+  type: "Dropout"
+  bottom: "lstm0_hidden4"
+  top: "dropout0_4"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer4"
+  type: "Concat"
+  bottom: "dropout0_4"
+  bottom: "lstm1_hidden3"
+  top: "concat1_layer4"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer4"
+  type: "Lstm"
+  bottom: "concat1_layer4"
+  bottom: "lstm1_mem_cell3"
+  top: "lstm1_hidden4"
+  top: "lstm1_mem_cell4"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_4"
+  type: "Dropout"
+  bottom: "lstm1_hidden4"
+  top: "dropout1_4"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer5"
+  type: "Concat"
+  bottom: "target_wordvec5"
+  bottom: "lstm0_hidden4"
+  top: "concat0_layer5"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer5"
+  type: "Lstm"
+  bottom: "concat0_layer5"
+  bottom: "lstm0_mem_cell4"
+  top: "lstm0_hidden5"
+  top: "lstm0_mem_cell5"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_5"
+  type: "Dropout"
+  bottom: "lstm0_hidden5"
+  top: "dropout0_5"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer5"
+  type: "Concat"
+  bottom: "dropout0_5"
+  bottom: "lstm1_hidden4"
+  top: "concat1_layer5"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer5"
+  type: "Lstm"
+  bottom: "concat1_layer5"
+  bottom: "lstm1_mem_cell4"
+  top: "lstm1_hidden5"
+  top: "lstm1_mem_cell5"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_5"
+  type: "Dropout"
+  bottom: "lstm1_hidden5"
+  top: "dropout1_5"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer6"
+  type: "Concat"
+  bottom: "target_wordvec6"
+  bottom: "lstm0_hidden5"
+  top: "concat0_layer6"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer6"
+  type: "Lstm"
+  bottom: "concat0_layer6"
+  bottom: "lstm0_mem_cell5"
+  top: "lstm0_hidden6"
+  top: "lstm0_mem_cell6"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_6"
+  type: "Dropout"
+  bottom: "lstm0_hidden6"
+  top: "dropout0_6"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer6"
+  type: "Concat"
+  bottom: "dropout0_6"
+  bottom: "lstm1_hidden5"
+  top: "concat1_layer6"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer6"
+  type: "Lstm"
+  bottom: "concat1_layer6"
+  bottom: "lstm1_mem_cell5"
+  top: "lstm1_hidden6"
+  top: "lstm1_mem_cell6"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_6"
+  type: "Dropout"
+  bottom: "lstm1_hidden6"
+  top: "dropout1_6"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer7"
+  type: "Concat"
+  bottom: "target_wordvec7"
+  bottom: "lstm0_hidden6"
+  top: "concat0_layer7"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer7"
+  type: "Lstm"
+  bottom: "concat0_layer7"
+  bottom: "lstm0_mem_cell6"
+  top: "lstm0_hidden7"
+  top: "lstm0_mem_cell7"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_7"
+  type: "Dropout"
+  bottom: "lstm0_hidden7"
+  top: "dropout0_7"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer7"
+  type: "Concat"
+  bottom: "dropout0_7"
+  bottom: "lstm1_hidden6"
+  top: "concat1_layer7"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer7"
+  type: "Lstm"
+  bottom: "concat1_layer7"
+  bottom: "lstm1_mem_cell6"
+  top: "lstm1_hidden7"
+  top: "lstm1_mem_cell7"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_7"
+  type: "Dropout"
+  bottom: "lstm1_hidden7"
+  top: "dropout1_7"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer8"
+  type: "Concat"
+  bottom: "target_wordvec8"
+  bottom: "lstm0_hidden7"
+  top: "concat0_layer8"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer8"
+  type: "Lstm"
+  bottom: "concat0_layer8"
+  bottom: "lstm0_mem_cell7"
+  top: "lstm0_hidden8"
+  top: "lstm0_mem_cell8"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_8"
+  type: "Dropout"
+  bottom: "lstm0_hidden8"
+  top: "dropout0_8"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer8"
+  type: "Concat"
+  bottom: "dropout0_8"
+  bottom: "lstm1_hidden7"
+  top: "concat1_layer8"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer8"
+  type: "Lstm"
+  bottom: "concat1_layer8"
+  bottom: "lstm1_mem_cell7"
+  top: "lstm1_hidden8"
+  top: "lstm1_mem_cell8"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_8"
+  type: "Dropout"
+  bottom: "lstm1_hidden8"
+  top: "dropout1_8"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer9"
+  type: "Concat"
+  bottom: "target_wordvec9"
+  bottom: "lstm0_hidden8"
+  top: "concat0_layer9"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer9"
+  type: "Lstm"
+  bottom: "concat0_layer9"
+  bottom: "lstm0_mem_cell8"
+  top: "lstm0_hidden9"
+  top: "lstm0_mem_cell9"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_9"
+  type: "Dropout"
+  bottom: "lstm0_hidden9"
+  top: "dropout0_9"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer9"
+  type: "Concat"
+  bottom: "dropout0_9"
+  bottom: "lstm1_hidden8"
+  top: "concat1_layer9"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer9"
+  type: "Lstm"
+  bottom: "concat1_layer9"
+  bottom: "lstm1_mem_cell8"
+  top: "lstm1_hidden9"
+  top: "lstm1_mem_cell9"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_9"
+  type: "Dropout"
+  bottom: "lstm1_hidden9"
+  top: "dropout1_9"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer10"
+  type: "Concat"
+  bottom: "target_wordvec10"
+  bottom: "lstm0_hidden9"
+  top: "concat0_layer10"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer10"
+  type: "Lstm"
+  bottom: "concat0_layer10"
+  bottom: "lstm0_mem_cell9"
+  top: "lstm0_hidden10"
+  top: "lstm0_mem_cell10"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_10"
+  type: "Dropout"
+  bottom: "lstm0_hidden10"
+  top: "dropout0_10"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer10"
+  type: "Concat"
+  bottom: "dropout0_10"
+  bottom: "lstm1_hidden9"
+  top: "concat1_layer10"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer10"
+  type: "Lstm"
+  bottom: "concat1_layer10"
+  bottom: "lstm1_mem_cell9"
+  top: "lstm1_hidden10"
+  top: "lstm1_mem_cell10"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_10"
+  type: "Dropout"
+  bottom: "lstm1_hidden10"
+  top: "dropout1_10"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer11"
+  type: "Concat"
+  bottom: "target_wordvec11"
+  bottom: "lstm0_hidden10"
+  top: "concat0_layer11"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer11"
+  type: "Lstm"
+  bottom: "concat0_layer11"
+  bottom: "lstm0_mem_cell10"
+  top: "lstm0_hidden11"
+  top: "lstm0_mem_cell11"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_11"
+  type: "Dropout"
+  bottom: "lstm0_hidden11"
+  top: "dropout0_11"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer11"
+  type: "Concat"
+  bottom: "dropout0_11"
+  bottom: "lstm1_hidden10"
+  top: "concat1_layer11"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer11"
+  type: "Lstm"
+  bottom: "concat1_layer11"
+  bottom: "lstm1_mem_cell10"
+  top: "lstm1_hidden11"
+  top: "lstm1_mem_cell11"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_11"
+  type: "Dropout"
+  bottom: "lstm1_hidden11"
+  top: "dropout1_11"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer12"
+  type: "Concat"
+  bottom: "target_wordvec12"
+  bottom: "lstm0_hidden11"
+  top: "concat0_layer12"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer12"
+  type: "Lstm"
+  bottom: "concat0_layer12"
+  bottom: "lstm0_mem_cell11"
+  top: "lstm0_hidden12"
+  top: "lstm0_mem_cell12"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_12"
+  type: "Dropout"
+  bottom: "lstm0_hidden12"
+  top: "dropout0_12"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer12"
+  type: "Concat"
+  bottom: "dropout0_12"
+  bottom: "lstm1_hidden11"
+  top: "concat1_layer12"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer12"
+  type: "Lstm"
+  bottom: "concat1_layer12"
+  bottom: "lstm1_mem_cell11"
+  top: "lstm1_hidden12"
+  top: "lstm1_mem_cell12"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_12"
+  type: "Dropout"
+  bottom: "lstm1_hidden12"
+  top: "dropout1_12"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer13"
+  type: "Concat"
+  bottom: "target_wordvec13"
+  bottom: "lstm0_hidden12"
+  top: "concat0_layer13"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer13"
+  type: "Lstm"
+  bottom: "concat0_layer13"
+  bottom: "lstm0_mem_cell12"
+  top: "lstm0_hidden13"
+  top: "lstm0_mem_cell13"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_13"
+  type: "Dropout"
+  bottom: "lstm0_hidden13"
+  top: "dropout0_13"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer13"
+  type: "Concat"
+  bottom: "dropout0_13"
+  bottom: "lstm1_hidden12"
+  top: "concat1_layer13"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer13"
+  type: "Lstm"
+  bottom: "concat1_layer13"
+  bottom: "lstm1_mem_cell12"
+  top: "lstm1_hidden13"
+  top: "lstm1_mem_cell13"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_13"
+  type: "Dropout"
+  bottom: "lstm1_hidden13"
+  top: "dropout1_13"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer14"
+  type: "Concat"
+  bottom: "target_wordvec14"
+  bottom: "lstm0_hidden13"
+  top: "concat0_layer14"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer14"
+  type: "Lstm"
+  bottom: "concat0_layer14"
+  bottom: "lstm0_mem_cell13"
+  top: "lstm0_hidden14"
+  top: "lstm0_mem_cell14"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_14"
+  type: "Dropout"
+  bottom: "lstm0_hidden14"
+  top: "dropout0_14"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer14"
+  type: "Concat"
+  bottom: "dropout0_14"
+  bottom: "lstm1_hidden13"
+  top: "concat1_layer14"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer14"
+  type: "Lstm"
+  bottom: "concat1_layer14"
+  bottom: "lstm1_mem_cell13"
+  top: "lstm1_hidden14"
+  top: "lstm1_mem_cell14"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_14"
+  type: "Dropout"
+  bottom: "lstm1_hidden14"
+  top: "dropout1_14"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer15"
+  type: "Concat"
+  bottom: "target_wordvec15"
+  bottom: "lstm0_hidden14"
+  top: "concat0_layer15"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer15"
+  type: "Lstm"
+  bottom: "concat0_layer15"
+  bottom: "lstm0_mem_cell14"
+  top: "lstm0_hidden15"
+  top: "lstm0_mem_cell15"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_15"
+  type: "Dropout"
+  bottom: "lstm0_hidden15"
+  top: "dropout0_15"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer15"
+  type: "Concat"
+  bottom: "dropout0_15"
+  bottom: "lstm1_hidden14"
+  top: "concat1_layer15"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer15"
+  type: "Lstm"
+  bottom: "concat1_layer15"
+  bottom: "lstm1_mem_cell14"
+  top: "lstm1_hidden15"
+  top: "lstm1_mem_cell15"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_15"
+  type: "Dropout"
+  bottom: "lstm1_hidden15"
+  top: "dropout1_15"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer16"
+  type: "Concat"
+  bottom: "target_wordvec16"
+  bottom: "lstm0_hidden15"
+  top: "concat0_layer16"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer16"
+  type: "Lstm"
+  bottom: "concat0_layer16"
+  bottom: "lstm0_mem_cell15"
+  top: "lstm0_hidden16"
+  top: "lstm0_mem_cell16"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_16"
+  type: "Dropout"
+  bottom: "lstm0_hidden16"
+  top: "dropout0_16"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer16"
+  type: "Concat"
+  bottom: "dropout0_16"
+  bottom: "lstm1_hidden15"
+  top: "concat1_layer16"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer16"
+  type: "Lstm"
+  bottom: "concat1_layer16"
+  bottom: "lstm1_mem_cell15"
+  top: "lstm1_hidden16"
+  top: "lstm1_mem_cell16"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_16"
+  type: "Dropout"
+  bottom: "lstm1_hidden16"
+  top: "dropout1_16"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer17"
+  type: "Concat"
+  bottom: "target_wordvec17"
+  bottom: "lstm0_hidden16"
+  top: "concat0_layer17"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer17"
+  type: "Lstm"
+  bottom: "concat0_layer17"
+  bottom: "lstm0_mem_cell16"
+  top: "lstm0_hidden17"
+  top: "lstm0_mem_cell17"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_17"
+  type: "Dropout"
+  bottom: "lstm0_hidden17"
+  top: "dropout0_17"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer17"
+  type: "Concat"
+  bottom: "dropout0_17"
+  bottom: "lstm1_hidden16"
+  top: "concat1_layer17"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer17"
+  type: "Lstm"
+  bottom: "concat1_layer17"
+  bottom: "lstm1_mem_cell16"
+  top: "lstm1_hidden17"
+  top: "lstm1_mem_cell17"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_17"
+  type: "Dropout"
+  bottom: "lstm1_hidden17"
+  top: "dropout1_17"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer18"
+  type: "Concat"
+  bottom: "target_wordvec18"
+  bottom: "lstm0_hidden17"
+  top: "concat0_layer18"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer18"
+  type: "Lstm"
+  bottom: "concat0_layer18"
+  bottom: "lstm0_mem_cell17"
+  top: "lstm0_hidden18"
+  top: "lstm0_mem_cell18"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_18"
+  type: "Dropout"
+  bottom: "lstm0_hidden18"
+  top: "dropout0_18"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer18"
+  type: "Concat"
+  bottom: "dropout0_18"
+  bottom: "lstm1_hidden17"
+  top: "concat1_layer18"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer18"
+  type: "Lstm"
+  bottom: "concat1_layer18"
+  bottom: "lstm1_mem_cell17"
+  top: "lstm1_hidden18"
+  top: "lstm1_mem_cell18"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_18"
+  type: "Dropout"
+  bottom: "lstm1_hidden18"
+  top: "dropout1_18"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer19"
+  type: "Concat"
+  bottom: "target_wordvec19"
+  bottom: "lstm0_hidden18"
+  top: "concat0_layer19"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer19"
+  type: "Lstm"
+  bottom: "concat0_layer19"
+  bottom: "lstm0_mem_cell18"
+  top: "lstm0_hidden19"
+  top: "lstm0_mem_cell19"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_19"
+  type: "Dropout"
+  bottom: "lstm0_hidden19"
+  top: "dropout0_19"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer19"
+  type: "Concat"
+  bottom: "dropout0_19"
+  bottom: "lstm1_hidden18"
+  top: "concat1_layer19"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer19"
+  type: "Lstm"
+  bottom: "concat1_layer19"
+  bottom: "lstm1_mem_cell18"
+  top: "lstm1_hidden19"
+  top: "lstm1_mem_cell19"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_19"
+  type: "Dropout"
+  bottom: "lstm1_hidden19"
+  top: "dropout1_19"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer20"
+  type: "Concat"
+  bottom: "target_wordvec20"
+  bottom: "lstm0_hidden19"
+  top: "concat0_layer20"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer20"
+  type: "Lstm"
+  bottom: "concat0_layer20"
+  bottom: "lstm0_mem_cell19"
+  top: "lstm0_hidden20"
+  top: "lstm0_mem_cell20"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_20"
+  type: "Dropout"
+  bottom: "lstm0_hidden20"
+  top: "dropout0_20"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer20"
+  type: "Concat"
+  bottom: "dropout0_20"
+  bottom: "lstm1_hidden19"
+  top: "concat1_layer20"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer20"
+  type: "Lstm"
+  bottom: "concat1_layer20"
+  bottom: "lstm1_mem_cell19"
+  top: "lstm1_hidden20"
+  top: "lstm1_mem_cell20"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_20"
+  type: "Dropout"
+  bottom: "lstm1_hidden20"
+  top: "dropout1_20"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer21"
+  type: "Concat"
+  bottom: "target_wordvec21"
+  bottom: "lstm0_hidden20"
+  top: "concat0_layer21"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer21"
+  type: "Lstm"
+  bottom: "concat0_layer21"
+  bottom: "lstm0_mem_cell20"
+  top: "lstm0_hidden21"
+  top: "lstm0_mem_cell21"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_21"
+  type: "Dropout"
+  bottom: "lstm0_hidden21"
+  top: "dropout0_21"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer21"
+  type: "Concat"
+  bottom: "dropout0_21"
+  bottom: "lstm1_hidden20"
+  top: "concat1_layer21"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer21"
+  type: "Lstm"
+  bottom: "concat1_layer21"
+  bottom: "lstm1_mem_cell20"
+  top: "lstm1_hidden21"
+  top: "lstm1_mem_cell21"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_21"
+  type: "Dropout"
+  bottom: "lstm1_hidden21"
+  top: "dropout1_21"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer22"
+  type: "Concat"
+  bottom: "target_wordvec22"
+  bottom: "lstm0_hidden21"
+  top: "concat0_layer22"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer22"
+  type: "Lstm"
+  bottom: "concat0_layer22"
+  bottom: "lstm0_mem_cell21"
+  top: "lstm0_hidden22"
+  top: "lstm0_mem_cell22"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_22"
+  type: "Dropout"
+  bottom: "lstm0_hidden22"
+  top: "dropout0_22"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer22"
+  type: "Concat"
+  bottom: "dropout0_22"
+  bottom: "lstm1_hidden21"
+  top: "concat1_layer22"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer22"
+  type: "Lstm"
+  bottom: "concat1_layer22"
+  bottom: "lstm1_mem_cell21"
+  top: "lstm1_hidden22"
+  top: "lstm1_mem_cell22"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_22"
+  type: "Dropout"
+  bottom: "lstm1_hidden22"
+  top: "dropout1_22"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer23"
+  type: "Concat"
+  bottom: "target_wordvec23"
+  bottom: "lstm0_hidden22"
+  top: "concat0_layer23"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer23"
+  type: "Lstm"
+  bottom: "concat0_layer23"
+  bottom: "lstm0_mem_cell22"
+  top: "lstm0_hidden23"
+  top: "lstm0_mem_cell23"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_23"
+  type: "Dropout"
+  bottom: "lstm0_hidden23"
+  top: "dropout0_23"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer23"
+  type: "Concat"
+  bottom: "dropout0_23"
+  bottom: "lstm1_hidden22"
+  top: "concat1_layer23"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer23"
+  type: "Lstm"
+  bottom: "concat1_layer23"
+  bottom: "lstm1_mem_cell22"
+  top: "lstm1_hidden23"
+  top: "lstm1_mem_cell23"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_23"
+  type: "Dropout"
+  bottom: "lstm1_hidden23"
+  top: "dropout1_23"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer24"
+  type: "Concat"
+  bottom: "target_wordvec24"
+  bottom: "lstm0_hidden23"
+  top: "concat0_layer24"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer24"
+  type: "Lstm"
+  bottom: "concat0_layer24"
+  bottom: "lstm0_mem_cell23"
+  top: "lstm0_hidden24"
+  top: "lstm0_mem_cell24"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_24"
+  type: "Dropout"
+  bottom: "lstm0_hidden24"
+  top: "dropout0_24"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer24"
+  type: "Concat"
+  bottom: "dropout0_24"
+  bottom: "lstm1_hidden23"
+  top: "concat1_layer24"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer24"
+  type: "Lstm"
+  bottom: "concat1_layer24"
+  bottom: "lstm1_mem_cell23"
+  top: "lstm1_hidden24"
+  top: "lstm1_mem_cell24"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_24"
+  type: "Dropout"
+  bottom: "lstm1_hidden24"
+  top: "dropout1_24"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer25"
+  type: "Concat"
+  bottom: "target_wordvec25"
+  bottom: "lstm0_hidden24"
+  top: "concat0_layer25"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer25"
+  type: "Lstm"
+  bottom: "concat0_layer25"
+  bottom: "lstm0_mem_cell24"
+  top: "lstm0_hidden25"
+  top: "lstm0_mem_cell25"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_25"
+  type: "Dropout"
+  bottom: "lstm0_hidden25"
+  top: "dropout0_25"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer25"
+  type: "Concat"
+  bottom: "dropout0_25"
+  bottom: "lstm1_hidden24"
+  top: "concat1_layer25"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer25"
+  type: "Lstm"
+  bottom: "concat1_layer25"
+  bottom: "lstm1_mem_cell24"
+  top: "lstm1_hidden25"
+  top: "lstm1_mem_cell25"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_25"
+  type: "Dropout"
+  bottom: "lstm1_hidden25"
+  top: "dropout1_25"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer26"
+  type: "Concat"
+  bottom: "target_wordvec26"
+  bottom: "lstm0_hidden25"
+  top: "concat0_layer26"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer26"
+  type: "Lstm"
+  bottom: "concat0_layer26"
+  bottom: "lstm0_mem_cell25"
+  top: "lstm0_hidden26"
+  top: "lstm0_mem_cell26"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_26"
+  type: "Dropout"
+  bottom: "lstm0_hidden26"
+  top: "dropout0_26"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer26"
+  type: "Concat"
+  bottom: "dropout0_26"
+  bottom: "lstm1_hidden25"
+  top: "concat1_layer26"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer26"
+  type: "Lstm"
+  bottom: "concat1_layer26"
+  bottom: "lstm1_mem_cell25"
+  top: "lstm1_hidden26"
+  top: "lstm1_mem_cell26"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_26"
+  type: "Dropout"
+  bottom: "lstm1_hidden26"
+  top: "dropout1_26"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer27"
+  type: "Concat"
+  bottom: "target_wordvec27"
+  bottom: "lstm0_hidden26"
+  top: "concat0_layer27"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer27"
+  type: "Lstm"
+  bottom: "concat0_layer27"
+  bottom: "lstm0_mem_cell26"
+  top: "lstm0_hidden27"
+  top: "lstm0_mem_cell27"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_27"
+  type: "Dropout"
+  bottom: "lstm0_hidden27"
+  top: "dropout0_27"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer27"
+  type: "Concat"
+  bottom: "dropout0_27"
+  bottom: "lstm1_hidden26"
+  top: "concat1_layer27"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer27"
+  type: "Lstm"
+  bottom: "concat1_layer27"
+  bottom: "lstm1_mem_cell26"
+  top: "lstm1_hidden27"
+  top: "lstm1_mem_cell27"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_27"
+  type: "Dropout"
+  bottom: "lstm1_hidden27"
+  top: "dropout1_27"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer28"
+  type: "Concat"
+  bottom: "target_wordvec28"
+  bottom: "lstm0_hidden27"
+  top: "concat0_layer28"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer28"
+  type: "Lstm"
+  bottom: "concat0_layer28"
+  bottom: "lstm0_mem_cell27"
+  top: "lstm0_hidden28"
+  top: "lstm0_mem_cell28"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_28"
+  type: "Dropout"
+  bottom: "lstm0_hidden28"
+  top: "dropout0_28"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer28"
+  type: "Concat"
+  bottom: "dropout0_28"
+  bottom: "lstm1_hidden27"
+  top: "concat1_layer28"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer28"
+  type: "Lstm"
+  bottom: "concat1_layer28"
+  bottom: "lstm1_mem_cell27"
+  top: "lstm1_hidden28"
+  top: "lstm1_mem_cell28"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_28"
+  type: "Dropout"
+  bottom: "lstm1_hidden28"
+  top: "dropout1_28"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat0_layer29"
+  type: "Concat"
+  bottom: "target_wordvec29"
+  bottom: "lstm0_hidden28"
+  top: "concat0_layer29"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm0_layer29"
+  type: "Lstm"
+  bottom: "concat0_layer29"
+  bottom: "lstm0_mem_cell28"
+  top: "lstm0_hidden29"
+  top: "lstm0_mem_cell29"
+  param {
+    name: "lstm0_param_0"
+  }
+  param {
+    name: "lstm0_param_1"
+  }
+  param {
+    name: "lstm0_param_2"
+  }
+  param {
+    name: "lstm0_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout0_29"
+  type: "Dropout"
+  bottom: "lstm0_hidden29"
+  top: "dropout0_29"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "concat1_layer29"
+  type: "Concat"
+  bottom: "dropout0_29"
+  bottom: "lstm1_hidden28"
+  top: "concat1_layer29"
+  concat_param {
+    fast_lstm_concat: true
+  }
+}
+layer {
+  name: "lstm1_layer29"
+  type: "Lstm"
+  bottom: "concat1_layer29"
+  bottom: "lstm1_mem_cell28"
+  top: "lstm1_hidden29"
+  top: "lstm1_mem_cell29"
+  param {
+    name: "lstm1_param_0"
+  }
+  param {
+    name: "lstm1_param_1"
+  }
+  param {
+    name: "lstm1_param_2"
+  }
+  param {
+    name: "lstm1_param_3"
+  }
+  lstm_param {
+    num_cells: 250
+    input_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    input_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    forget_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+    output_gate_weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "dropout1_29"
+  type: "Dropout"
+  bottom: "lstm1_hidden29"
+  top: "dropout1_29"
+  dropout_param {
+    dropout_ratio: 0.16
+  }
+}
+layer {
+  name: "hidden_concat"
+  type: "Concat"
+  bottom: "dropout1_0"
+  bottom: "dropout1_1"
+  bottom: "dropout1_2"
+  bottom: "dropout1_3"
+  bottom: "dropout1_4"
+  bottom: "dropout1_5"
+  bottom: "dropout1_6"
+  bottom: "dropout1_7"
+  bottom: "dropout1_8"
+  bottom: "dropout1_9"
+  bottom: "dropout1_10"
+  bottom: "dropout1_11"
+  bottom: "dropout1_12"
+  bottom: "dropout1_13"
+  bottom: "dropout1_14"
+  bottom: "dropout1_15"
+  bottom: "dropout1_16"
+  bottom: "dropout1_17"
+  bottom: "dropout1_18"
+  bottom: "dropout1_19"
+  bottom: "dropout1_20"
+  bottom: "dropout1_21"
+  bottom: "dropout1_22"
+  bottom: "dropout1_23"
+  bottom: "dropout1_24"
+  bottom: "dropout1_25"
+  bottom: "dropout1_26"
+  bottom: "dropout1_27"
+  bottom: "dropout1_28"
+  bottom: "dropout1_29"
+  top: "hidden_concat"
+  concat_param {
+    concat_dim: 0
+  }
+}
+layer {
+  name: "inner_product"
+  type: "InnerProduct"
+  bottom: "hidden_concat"
+  top: "inner_product"
+  inner_product_param {
+    num_output: 10003
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.14
+      max: 0.14
+    }
+  }
+}
+layer {
+  name: "label_concat"
+  type: "Concat"
+  bottom: "label0"
+  bottom: "label1"
+  bottom: "label2"
+  bottom: "label3"
+  bottom: "label4"
+  bottom: "label5"
+  bottom: "label6"
+  bottom: "label7"
+  bottom: "label8"
+  bottom: "label9"
+  bottom: "label10"
+  bottom: "label11"
+  bottom: "label12"
+  bottom: "label13"
+  bottom: "label14"
+  bottom: "label15"
+  bottom: "label16"
+  bottom: "label17"
+  bottom: "label18"
+  bottom: "label19"
+  bottom: "label20"
+  bottom: "label21"
+  bottom: "label22"
+  bottom: "label23"
+  bottom: "label24"
+  bottom: "label25"
+  bottom: "label26"
+  bottom: "label27"
+  bottom: "label28"
+  bottom: "label29"
+  top: "label_concat"
+  concat_param {
+    concat_dim: 0
+  }
+}
+layer {
+  name: "word_probs"
+  type: "Softmax"
+  bottom: "inner_product"
+  top: "word_probs"
+}
+layer {
+  name: "silence"
+  type: "Silence"
+  bottom: "lstm0_mem_cell29"
+  bottom: "lstm1_mem_cell29"
+  bottom: "dropout0_29"
+}

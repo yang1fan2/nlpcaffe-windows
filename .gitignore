@@ -236,3 +236,7 @@ data/mnist/t10k*
 examples/mnist/mnist*
 *.solverstate
 *.caffemodel
+data/language_model/*.txt
+data/language_model/*.pkl
+examples/language_model/lm_*
+*.pyc

@@ -6,6 +6,7 @@ import subprocess
 import itertools
 import argparse
 import numpy as np
+import os.path
 sys.path.append('python/caffe/proto'); import caffe_pb2
 
 from caffe_pb2 import NetParameter, LayerParameter, DataParameter, SolverParameter, ParamSpec
@@ -15,8 +16,10 @@ def make_data(param):
     for phase in ['train', 'valid', 'test']:
         print 'Starting %s' % phase
         db_name = './examples/language_model/lm_%s_db' % phase
-        subprocess.call(['rm', '-rf', db_name])
-        env = lmdb.open(db_name, map_size=2147483648*8)
+        #print db_name
+        if os.path.isfile(db_name):
+            subprocess.call(['rm', '-rf', db_name])
+        env = lmdb.open(db_name, map_size=10485760*64)
 
         def vocab_transform(target_input):
             def t_foo(x):
