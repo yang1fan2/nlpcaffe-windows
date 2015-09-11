@@ -7,9 +7,9 @@ layer {
     phase: TRAIN
   }
   data_param {
-    source: "examples/language_model/lm_train_db"
+    source: "examples/language_model/lm_train_leveldb"
     batch_size: 128
-    backend: LMDB
+    backend: LEVELDB
   }
 }
 layer {
@@ -20,9 +20,9 @@ layer {
     phase: TEST
   }
   data_param {
-    source: "examples/language_model/lm_valid_db"
+    source: "examples/language_model/lm_valid_leveldb"
     batch_size: 128
-    backend: LMDB
+    backend: LEVELDB
   }
 }
 layer {

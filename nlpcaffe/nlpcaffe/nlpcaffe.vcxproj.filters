@@ -248,7 +248,7 @@
     <ClCompile Include="..\..\src\caffe\proto\caffe.pb.cc">
       <Filter>Source Files\proto</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tools\convert_mnist_data.cpp">
+    <ClCompile Include="..\..\examples\language_model\convert_language_data.cpp">
       <Filter>Source Files\tool</Filter>
     </ClCompile>
   </ItemGroup>
