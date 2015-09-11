@@ -8,14 +8,20 @@ how to install
 ps: use source code nlpcaffe instead of caffe, in this article.
 
 2. After training MNIST dataset successfully, let's train language model.
-	a. run scripts/GeneratePB.bat to obtain caffe_pb2.py
-	b. run data/language_model/get_lm.bat to download dataset.
-	c. generate architecture train_val.prototxt with: 
+
+a. run scripts/GeneratePB.bat to obtain caffe_pb2.py
+
+b. run data/language_model/get_lm.bat to download dataset.
+
+c. generate architecture train_val.prototxt with: 
 		python ./examples/language_model/create_lm.py --make_data
-	d. run convert_language_data.cpp to obtain leveldb data
+
+d. run convert_language_data.cpp to obtain leveldb data
 		(because it seems that there are still some issures with lmdb on windows)
-	e. change backend of train_val.prototxt to LEVELDB
-	f. train the network
+
+e. change backend of train_val.prototxt to LEVELDB
+
+f. train the network
 
 
 
